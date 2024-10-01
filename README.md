@@ -66,13 +66,104 @@ This application features a RESTful API for performing CRUD operations on Users,
 
 **To install this project locally, jump into your terminal application and please follow these steps**:
 
+1. **Clone the `Social-Network-API` repository**:
+
+   ```bash
+   Using HTTPS:
+   git clone https://github.com/TEMPTAG/Social-Network-API.git
+
+   Using SSH:
+   git clone git@github.com:TEMPTAG/Social-Network-API.git
+
+   Using GitHub CLI:
+   gh repo clone TEMPTAG/Social-Network-API
+   ```
+
+2. **Navigate into the `Social-Network-API` directory you just cloned down**:
+
+   ```bash
+   cd Social-Network-API
+   ```
+
+3. **Install the npm dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+4. **Create an `.env` file in the root directory and add the following**:
+
+   ```bash
+   MONGODB_URI=mongodb://127.0.0.1:27017/socialNetworkDB
+   PORT=3001
+   ```
+
+5. **Start the appropriate server**:
+
+   - Development server with live (nodemon) reloading:
+
+   ```bash
+   npm run dev
+   ```
+
+   - Production server:
+
+   ```bash
+   npm start
+   ```
+
+6. **Test the API using Insomnia with the following `API Endpoints`**
+
 ---
 
 ## API Endpoints
 
+- **User Routes**:
+
+  - `GET` /api/users - Get all users
+  - `GET` /api/users/:userId - Get a single user by ID
+  - `POST` /api/users - Create a new user
+  - `PUT` /api/users/:userId - Update an existing user
+  - `DELETE` /api/users/:userId - Delete a user and their associated thoughts
+
+- **Friend Routes**:
+
+  - `POST` /api/users/:userId/friends/:friendId - Add a friend to a user’s friend list
+  - `DELETE` /api/users/:userId/friends/:friendId - Remove a friend from a user’s friend list
+
+- **Thought Routes**:
+
+  - `GET` /api/thoughts - Get all thoughts
+  - `GET` /api/thoughts/:thoughtId - Get a single thought by ID
+  - `POST` /api/thoughts - Create a new thought (and associate it with a user)
+  - `PUT` /api/thoughts/:thoughtId - Update an existing thought
+  - `DELETE` /api/thoughts/:thoughtId - Delete a thought
+
+- **Reaction Routes**:
+  - `POST` /api/thoughts/:thoughtId/reactions - Create a reaction to a thought
+  - `DELETE` /api/thoughts/:thoughtId/reactions/:reactionId - Delete a reaction from a thought
+
 ---
 
 ## Usage
+
+- Once the server is running, use Insomnia to test the API routes at the base URL:
+  `http://localhost:3001`
+- Use the above User, Thought, Reaction, and Friend Relationship `API Endpoints` to:
+  - Create
+  - Read
+  - Update
+  - Delete
+- Example User Object JSON:
+
+  ```json
+  {
+    "username": "ianRocks",
+    "email": "ian@isawesome.com",
+    "thoughts": [],
+    "friends": []
+  }
+  ```
 
 ---
 
@@ -113,3 +204,4 @@ This project is covered under the MIT License. The details of the MIT License ca
 [Back to top](#top)
 
 </div>
+```

@@ -1,10 +1,16 @@
 // Import the Mongoose library to handle MongoDB connections and data modeling
 import mongoose from "mongoose";
 
-// Establish a connection to the MongoDB database
-// The URI specifies the protocol (mongodb), the localhost IP address (127.0.0.1), the port number (27017), and the database name (`socialNetworkDB`).  If `socialNetworkDB` does not exist, MongoDB will create it automatically.
-mongoose.connect("mongodb://127.0.0.1:27017/socialNetworkDB");
+// Import dotenv to load environment variables from the .env file
+import dotenv from "dotenv";
+dotenv.config();
 
-// Export the Mongoose connection object to be used in other parts of the application
-// This export allows other files to use this connection instance to interact with the database.
+// Define the MongoDB database connection string
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/socialNetworkDB";
+
+// Establish a connection to the MongoDB database
+mongoose.connect(MONGODB_URI);
+
+// Export the Mongoose connection object
 export default mongoose.connection;

@@ -6,7 +6,8 @@ dotenv.config();
 import express from "express";
 // Import the Database connection from the config folder
 import db from "./config/connection.js";
-// import { User } from "./models/index.js";
+// Import the routes from the routes folder
+import routes from "./routes/index.js";
 
 // Define the port on which the server will listen. Use the environment variable if provided, otherwise default to 3001.
 const PORT = process.env.PORT || 3001;
@@ -17,6 +18,9 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse incoming JSON data
 app.use(express.json());
+
+// Use the imported routes from the base `/api` route
+app.use("/api", routes);
 
 // Simple home route to test that the server is running
 app.get("/", (_req, res) => {
@@ -31,7 +35,7 @@ db.on("error", (err) => {
 // Once the database connection is open, start the Express server
 db.once("open", () => {
   app.listen(PORT, () => {
-    // Log a message in the console indicating the server is running with a copy-paste-ready or clickable URL
+    // Log a message in the console indicating the server is running with a copy/paste or clickable URL
     console.log(
       `Social Network API server running on http://localhost:${PORT}`
     );

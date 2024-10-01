@@ -1,5 +1,5 @@
 // Import the User model from the current directory
-import User from "./User";
+import User from "./User.js";
 
 // import Thought from "./Thought";
 
