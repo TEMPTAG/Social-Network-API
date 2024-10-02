@@ -1,7 +1,7 @@
 import { User, Thought } from "../models/index.js";
 import { Request, Response } from "express";
 
-// `/api/users` routes
+// `/api/users` routes:
 
 // `GET` all users
 export const getAllUsers = async (_req: Request, res: Response) => {
@@ -84,9 +84,6 @@ export const deleteUser = async (req: Request, res: Response) => {
 
 // `POST` to add a new friend to a user's friend list
 export const addFriend = async (req: Request, res: Response) => {
-  // res
-  //   .status(200)
-  //   .json({ message: "POST to add a friend to user's friend list route" });
   try {
     const user = await User.findOneAndUpdate(
       { _id: req.params.userId },
@@ -108,9 +105,6 @@ export const addFriend = async (req: Request, res: Response) => {
 
 // `DELETE` to remove a friend from a user's friend list
 export const removeFriend = async (req: Request, res: Response) => {
-  // res.status(200).json({
-  //   message: "DELETE to remove a friend from a user's friend list route",
-  // });
   try {
     const user = await User.findOneAndUpdate(
       { _id: req.params.userId },

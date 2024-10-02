@@ -43,7 +43,7 @@ const thoughtSchema = new Schema<IThought>(
 
 // Create a virtual property `reactionCount` to get the length of the reactions array
 thoughtSchema.virtual("reactionCount").get(function () {
-  return this.reactions.length;
+  return this.reactions?.length;
 });
 
 // Compile the Thought model using the thoughtSchema

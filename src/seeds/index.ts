@@ -1,16 +1,18 @@
 import db from "../config/connection.js";
-import { User } from "../models/index.js";
-import userSeeds from "./seeds.js";
+import { User, Thought } from "../models/index.js";
+import { userSeeds, thoughtSeeds } from "./seeds.js";
 
 const seedDatabase = async () => {
   try {
     await db();
 
     await User.deleteMany({});
-    console.log("Existing users deleted. Seeding users...");
+    await Thought.deleteMany({});
+    console.log("Existing Users and Thoughts deleted.");
 
     await User.insertMany(userSeeds);
-    console.log("Users seeded successfully.");
+    await Thought.insertMany(thoughtSeeds);
+    console.log("Seeded Users and Thoughts successfully.");
 
     console.log("Seeding complete. Closing database connection...");
     process.exit(0);
