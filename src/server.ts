@@ -20,12 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Use the imported routes from the base `/api` route
-app.use("/api", routes);
-
-// Simple home route to test that the server is running
-app.get("/", (_req, res) => {
-  res.send("You are connected to the Social Network API!");
-});
+app.use(routes);
 
 // Handle database connection errors
 db.on("error", (err) => {

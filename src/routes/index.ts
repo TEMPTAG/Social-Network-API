@@ -1,13 +1,13 @@
 import { Router } from "express";
-import userRoutes from "./userRoutes.js";
-import thoughtRoutes from "./thoughtRoutes.js";
-
 const router = Router();
+import apiRoutes from "./api/index.js";
 
-// Add the User routes to the router
-router.use("/users", userRoutes);
+// Import the API routes from the `api` directory
+router.use("/api", apiRoutes);
 
-// Add the Thought routes to the router
-router.use("/thoughts", thoughtRoutes);
+// If the route is not valid, return a 404 status
+router.use((_req, res) => {
+  return res.send("This is not a valid route in the Social Network API");
+});
 
 export default router;
