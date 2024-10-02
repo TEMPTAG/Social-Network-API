@@ -20,4 +20,4 @@ router
   .delete(deleteThought);
 
 // Export the `/api/thoughts` routes
-export default router;
+export { router as thoughtRouter };

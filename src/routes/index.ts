@@ -1,6 +1,7 @@
 import { Router } from "express";
-const router = Router();
 import apiRoutes from "./api/index.js";
+
+const router = Router();
 
 // Import the API routes from the `api` directory
 router.use("/api", apiRoutes);

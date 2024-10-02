@@ -45,7 +45,7 @@ const userSchema = new Schema<IUser>(
 );
 
 userSchema.virtual("friendCount").get(function () {
-  return this.friends.length;
+  return this.friends?.length;
 });
 
 // Compile User model based on the userSchema and create a new instance of the model
