@@ -1,22 +1,38 @@
-// Reaction (SCHEMA ONLY)
+// Define Mongoose
+import { Schema, model, Document } from "mongoose";
 
-// `reactionId`
-// - Use Mongoose's ObjectId data type
-// - Default value is set to a new ObjectId
+// Define an interface for the Reaction document
+interface IReaction extends Document {
+  reactionBody: string;
+  username: string;
+  createdAt: Date | string;
+}
 
-// `reactionBody`
-// - String
-// - Required
-// - 280 character maximum
+// Create the Reaction schema
+const reactionSchema = new Schema<IReaction>(
+  {
+    reactionBody: {
+      type: String,
+      required: true,
+      maxlength: 280,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (timestamp: Date) => timestamp.toLocaleString(),
+    },
+  },
+  {
+    toJSON: { getters: true },
+    id: false,
+  }
+);
 
-// `username`
-// - String
-// - Required
+// Create and export the Reaction model
+const Reaction = model<IReaction>("Reaction", reactionSchema);
 
-// `createdAt`
-// - Date
-// - Set default value to the current timestamp
-// - Use a getter method to format the timestamp on query
-
-// Schema Settings:
-// - This will not be a model, but rather will be used as the `reaction` field's schema in the `Thought` model.
+export default Reaction;

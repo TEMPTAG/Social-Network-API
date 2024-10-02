@@ -125,23 +125,19 @@ This application features a RESTful API for performing CRUD operations on Users,
   - `POST` /api/users - Create a new user
   - `PUT` /api/users/:userId - Update an existing user
   - `DELETE` /api/users/:userId - Delete a user and their associated thoughts
-
-- **Friend Routes**:
-
-  - `POST` /api/users/:userId/friends/:friendId - Add a friend to a user’s friend list
-  - `DELETE` /api/users/:userId/friends/:friendId - Remove a friend from a user’s friend list
+  - **Friends of User Routes**:
+    - `POST` /api/users/:userId/friends/:friendId - Add a friend to a user’s friend list
+    - `DELETE` /api/users/:userId/friends/:friendId - Remove a friend from a user’s friend list
 
 - **Thought Routes**:
-
   - `GET` /api/thoughts - Get all thoughts
   - `GET` /api/thoughts/:thoughtId - Get a single thought by ID
   - `POST` /api/thoughts - Create a new thought (and associate it with a user)
   - `PUT` /api/thoughts/:thoughtId - Update an existing thought
   - `DELETE` /api/thoughts/:thoughtId - Delete a thought
-
-- **Reaction Routes**:
-  - `POST` /api/thoughts/:thoughtId/reactions - Create a reaction to a thought
-  - `DELETE` /api/thoughts/:thoughtId/reactions/:reactionId - Delete a reaction from a thought
+  - **Reaction to Thoughts Routes**:
+    - `POST` /api/thoughts/:thoughtId/reactions - Create a reaction to a thought
+    - `DELETE` /api/thoughts/:thoughtId/reactions/:reactionId - Delete a reaction from a thought
 
 ---
 

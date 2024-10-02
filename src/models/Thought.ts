@@ -1,21 +1,52 @@
-// Thought Module:
+// Define Mongoose
+import { Schema, model, Document, Types } from "mongoose";
 
-// `thoughtText`
-// - String
-// - Required
-// - Must be between 1 and 280 characters
+// Define an interface for the Thought document
+interface IThought extends Document {
+  thoughtText: string;
+  createdAt: Date | string;
+  username: string;
+  reactions: Types.ObjectId[];
+  reactionCount: number;
+}
 
-// `createdAt`
-// - Date
-// - Set default value to the current timestamp
-// - Use a getter method to format the timestamp on query
+// Create the Thought schema
+const thoughtSchema = new Schema<IThought>(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      minlength: 1,
+      maxlength: 280,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (timestamp: Date) => timestamp.toLocaleString(),
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    reactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Reaction",
+      },
+    ],
+  },
+  {
+    toJSON: { virtuals: true, getters: true },
+    id: false,
+  }
+);
 
-// `username` (The user that created this thought)
-// - String
-// - Required
+// Create a virtual property `reactionCount` to get the length of the reactions array
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
 
-// `reactions` (These are like replies)
-// - Array of nested documents created with the `reactionSchema`
+// Compile the Thought model using the thoughtSchema
+const Thought = model<IThought>("Thought", thoughtSchema);
 
-// Schema Settings:
-// - Create a virtual called `reactionCount` that retrieves the length of the thought's `reactions` array field on query.
+export default Thought;
