@@ -1,6 +1,4 @@
 import { User, Thought } from "../models/index.js";
-// import { Thought } from "../models/index.js";
-
 import { Request, Response } from "express";
 
 // `/api/thoughts` routes
@@ -137,5 +135,45 @@ export const deleteThought = async (req: Request, res: Response) => {
 // `/api/thoughts/:thoughtId/reactions` routes
 
 // `POST` to create a reaction stored in a single thought's `reactions` array field
+export const addReaction = async (req: Request, res: Response) => {
+  // return res.json({ message: "Create a reaction route" });
+  try {
+    const thought = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $push: { reactions: req.body } },
+      { runValidators: true, new: true }
+    );
+
+    if (!thought) {
+      res.status(404).json({
+        message: "Reaction created, but there is no thought with this id!",
+      });
+    } else {
+      res.json(thought);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
 
 // `DELETE` to pull and remove a reaction by the reaction's `reactionId` value
+export const removeReaction = async (req: Request, res: Response) => {
+  // return res.json({ message: "Delete a reaction route" });
+  try {
+    const thought = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { _id: req.params.reactionId } } },
+      { new: true }
+    );
+
+    if (!thought) {
+      return res.status(404).json({ message: "No thought with this id!" });
+    }
+
+    return res.json(thought);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+};

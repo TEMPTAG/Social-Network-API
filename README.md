@@ -37,15 +37,16 @@ This application features a RESTful API for performing CRUD operations on Users,
 - **User Management**:
   - Create, update, and delete user profiles.
   - Each user has a unique username and email address.
-- **Thought Management**:
-  - Users can create, read, update, and delete their thoughts.
-  - Thoughts can be reacted to using reactions (like comments or emojis).
-- **Reaction System**:
-  - Create and delete reactions tied to thoughts.
-  - Support for nested subdocuments, allowing a flexible data structure.
 - **Friendship Management**:
   - Add and remove friends from a user’s friend list.
   - Display a friend count using a virtual field.
+- **Thought Management**:
+  - Users can create, read, update, and delete their thoughts.
+  - Thoughts can include embedded reactions, similar to comments or emojis.
+- **Reaction System**:
+  - Create and delete reactions embedded within thoughts.
+  - Reactions are stored directly as subdocuments within the Thought document for easy management.
+  - Display a reaction count using a virtual field.
 - **Database Integration**:
   - MongoDB and Mongoose are used to manage complex data relationships.
   - Efficient querying and data retrieval, even with large datasets.
@@ -98,7 +99,13 @@ This application features a RESTful API for performing CRUD operations on Users,
    PORT=3001
    ```
 
-5. **Start the appropriate server**:
+5. **Seed the Database**:
+
+   ```bash
+   npm run seed
+   ```
+
+6. **Start the appropriate server**:
 
    - Development server with live (nodemon) reloading:
 
@@ -112,7 +119,7 @@ This application features a RESTful API for performing CRUD operations on Users,
    npm start
    ```
 
-6. **Test the API using Insomnia with the following `API Endpoints`**
+7. **Test the API using Insomnia with the following `API Endpoints`**
 
 ---
 
@@ -154,10 +161,13 @@ This application features a RESTful API for performing CRUD operations on Users,
 
   ```json
   {
+    "id": "example",
     "username": "ianRocks",
     "email": "ian@isawesome.com",
     "thoughts": [],
-    "friends": []
+    "friends": [],
+    "__v": 0,
+    "friendCount": 0
   }
   ```
 
