@@ -1,4 +1,7 @@
+// Import the User and Thought models to perform CRUD operations on the database
 import { User, Thought } from "../models/index.js";
+
+// Import the Request and Response types from Express
 import { Request, Response } from "express";
 
 // `/api/thoughts` routes
@@ -6,24 +9,36 @@ import { Request, Response } from "express";
 // `GET` to get all thoughts
 export const getAllThoughts = async (_req: Request, res: Response) => {
   try {
+    // Find all thoughts and return the thought data
     const thoughts = await Thought.find();
+
+    // If no thoughts are found, send a 404 error
+    if (!thoughts) {
+      return res.status(404).json({ message: "No thoughts found!" });
+    }
+
     res.json(thoughts);
+    return;
   } catch (err) {
     res.status(500).json(err);
+    return;
   }
 };
 
 // `GET` to get a single thought by its `_id`
 export const getThoughtById = async (req: Request, res: Response) => {
   try {
+    // Find a single thought by its `_id` and exclude the `__v` field
     const thought = await Thought.findOne({ _id: req.params.thoughtId }).select(
       "-__v"
     );
 
+    // If no thought is found, send a 404 error
     if (!thought) {
       return res.status(404).json({ message: "No thought with that ID" });
     }
 
+    // If the thought is found, return the thought data
     res.json(thought);
     return;
   } catch (err) {
@@ -59,7 +74,7 @@ export const createThought = async (req: Request, res: Response) => {
     );
 
     // Return the Thought and User
-    res.json({ thought, user });
+    res.json({ message: "Thought created.", thought, user });
     return;
   } catch (err) {
     console.error("Error creating thought:", err);
@@ -71,17 +86,20 @@ export const createThought = async (req: Request, res: Response) => {
 // `PUT` to update a Thought by its `_id`
 export const updateThought = async (req: Request, res: Response) => {
   try {
+    // Find and update the Thought by its `_id`, run schema validators, and return the updated document
     const thought = await Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
     );
 
+    // If no Thought is found, send a 404 error
     if (!thought) {
       return res.status(404).json({ message: "No thought with this id!" });
     }
 
-    res.json(thought);
+    // If the Thought is found and updated, return the success message and updated
+    res.json({ message: "Thought updated.", thought });
     return;
   } catch (err) {
     console.log(err);
@@ -90,8 +108,7 @@ export const updateThought = async (req: Request, res: Response) => {
   }
 };
 
-// `DELETE` to remove a Thought by its `_id`.
-// Don't forget to also delete the Thought from the associated User's `thoughts` array field.
+// `DELETE` to remove a Thought by its `_id`. Also remove the Thought's `_id` from the associated User's `thoughts` array field
 export const deleteThought = async (req: Request, res: Response) => {
   try {
     // Find and delete the Thought by its `_id`
@@ -136,20 +153,22 @@ export const deleteThought = async (req: Request, res: Response) => {
 
 // `POST` to create a reaction stored in a single thought's `reactions` array field
 export const addReaction = async (req: Request, res: Response) => {
-  // return res.json({ message: "Create a reaction route" });
   try {
+    // Find a single thought by its `_id` and push the reaction body to the `reactions` array
     const thought = await Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $push: { reactions: req.body } },
       { runValidators: true, new: true }
     );
 
+    // If no thought is found, send a 404 error
     if (!thought) {
       res.status(404).json({
         message: "Reaction created, but there is no thought with this id!",
       });
     } else {
-      res.json(thought);
+      // If the thought is found and the reaction is added, return the thought data
+      res.json({ message: "Reaction added to thought.", thought });
     }
   } catch (err) {
     console.log(err);
@@ -159,19 +178,21 @@ export const addReaction = async (req: Request, res: Response) => {
 
 // `DELETE` to pull and remove a reaction by the reaction's `reactionId` value
 export const removeReaction = async (req: Request, res: Response) => {
-  // return res.json({ message: "Delete a reaction route" });
   try {
+    // Find a single thought by its `_id` and pull the reaction by the `reactionId` value
     const thought = await Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $pull: { reactions: { _id: req.params.reactionId } } },
       { new: true }
     );
 
+    // If no thought is found, send a 404 error
     if (!thought) {
       return res.status(404).json({ message: "No thought with this id!" });
     }
 
-    return res.json(thought);
+    // If the thought is found and the reaction is removed, return the message and thought data
+    return res.json({ message: "Reaction deleted.", thought });
   } catch (err) {
     console.log(err);
     return res.status(500).json(err);
