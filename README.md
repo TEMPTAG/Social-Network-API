@@ -12,9 +12,9 @@ The Social Network API is a backend application built for a social media platfor
 
 This application features a RESTful API for performing CRUD operations on Users, Thoughts, Reactions, and Friend relationships, making it easy to expand and integrate with a front-end or mobile application. With a focus on clean architecture and performance, the Social Network API is built to handle large datasets typical in social networking scenarios.
 
-![Animated .gif of the Application Running in Insomnia]()
+![Screenshot of Social Network API Routes in Insomnia](./assets/images/socialNetworkAPI.jpg)
 
-<!-- LINK WALKTHROUGH VIDEO -->
+[Walkthrough Video of the Social Network API](https://drive.google.com/file/d/1cyKvw2ap_cxxDZe8K0odGFP84MpxFPS0/view)
 
 ---
 
@@ -210,4 +210,3 @@ This project is covered under the MIT License. The details of the MIT License ca
 [Back to top](#top)
 
 </div>
-```

@@ -17,9 +17,10 @@ export const getAllUsers = async (_req: Request, res: Response) => {
       return res.status(404).json({ message: "No Users found!" });
     }
 
-    res.json(users);
+    res.status(200).json(users);
     return;
   } catch (err) {
+    console.log("Get all users: ", err);
     res.status(500).json(err);
     return;
   }
@@ -37,9 +38,10 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 
     // If the user is found, return the user data
-    res.json(user);
+    res.status(200).json(user);
     return;
   } catch (err) {
+    console.log("Get user by ID: ", err);
     res.status(500).json(err);
     return;
   }
@@ -52,8 +54,9 @@ export const createUser = async (req: Request, res: Response) => {
     const user = await User.create(req.body);
 
     // If the user is created, return the message and user data
-    res.json({ message: "New User created.", user });
+    res.status(200).json({ message: "New User created: ", user });
   } catch (err) {
+    console.log("Create User: ", err);
     res.status(500).json(err);
   }
 };
@@ -74,10 +77,10 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 
     // If the user is found and updated, return the message and updated user data
-    res.json({ message: "User updated.", user });
+    res.status(200).json({ message: "User updated: ", user });
     return;
   } catch (err) {
-    console.log(err);
+    console.log("Update User: ", err);
     res.status(500).json(err);
     return;
   }
@@ -96,9 +99,10 @@ export const deleteUser = async (req: Request, res: Response) => {
 
     // Delete all thoughts associated with the user and return the message
     await Thought.deleteMany({ _id: { $in: user.thoughts } });
-    res.json({ message: "User and associated Thoughts deleted." });
+    res.status(200).json({ message: "User and associated Thoughts deleted." });
     return;
   } catch (err) {
+    console.log("Delete User: ", err);
     res.status(500).json(err);
     return;
   }
@@ -114,7 +118,7 @@ export const addFriend = async (req: Request, res: Response) => {
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
-    );
+    ).populate("friends");
 
     // If no user is found, send a 404 error
     if (!user) {
@@ -122,9 +126,10 @@ export const addFriend = async (req: Request, res: Response) => {
     }
 
     // If the user is found and friend added, return the message and updated user data
-    res.json({ message: "Friend added.", user });
+    res.status(200).json({ message: "Friend added: ", user });
     return;
   } catch (err) {
+    console.log("Add Friend: ", err);
     res.status(500).json(err);
     return;
   }
@@ -146,9 +151,10 @@ export const removeFriend = async (req: Request, res: Response) => {
     }
 
     // If the user is found and delete, return the message and updated user data
-    res.json({ message: "Friend removed.", user });
+    res.status(200).json({ message: "Friend removed: ", user });
     return;
   } catch (err) {
+    console.log("Remove Friend: ", err);
     res.status(500).json(err);
     return;
   }

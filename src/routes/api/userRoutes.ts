@@ -21,11 +21,8 @@ router.route("/").get(getAllUsers).post(createUser);
 // Routes for a specific User and associated controller functions
 router.route("/:userId").get(getUserById).put(updateUser).delete(deleteUser);
 
-// Routes for adding a User's Friend and associated controller functions
-router.route("/:userId/friends").post(addFriend);
-
-// Routes for removing a User's Friend and associated controller functions
-router.route("/:userId/friends/:friendId").delete(removeFriend);
+// Routes for adding and removing a User's Friend and associated controller functions
+router.route("/:userId/friends/:friendId").post(addFriend).delete(removeFriend);
 
 // Export the `/api/users` router to be used in the main API routes (`/api/index.ts`)
 export default router;

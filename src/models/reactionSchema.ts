@@ -22,7 +22,7 @@ export const reactionSchema = new Schema<IReaction>(
       type: String,
       required: true,
     },
-
+    // Define the `createdAt` field: a date that defaults to the current timestamp
     createdAt: {
       type: Date,
       default: Date.now,

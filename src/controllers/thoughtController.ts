@@ -58,7 +58,9 @@ export const createThought = async (req: Request, res: Response) => {
 
   try {
     // Check if the User exists before creating the Thought
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ username: req.body.username }).populate(
+      "thoughts"
+    );
     if (!user) {
       return res.status(404).json({ message: "No user with that username" });
     }
@@ -74,7 +76,7 @@ export const createThought = async (req: Request, res: Response) => {
     );
 
     // Return the Thought and User
-    res.json({ message: "Thought created.", thought, user });
+    res.json({ message: "Thought created: ", thought, user });
     return;
   } catch (err) {
     console.error("Error creating thought:", err);
